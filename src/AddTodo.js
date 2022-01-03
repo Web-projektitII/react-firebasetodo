@@ -6,7 +6,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Error,InputS } from './Styled';
+import { Error,InputS,Button as ButtonS } from './Styled';
 import { Form, Input, Button as ButtonR, 
   Modal, ModalFooter,
   ModalHeader, ModalBody } from 'reactstrap';
@@ -80,12 +80,12 @@ function AddTodo(props) {
   return(
     <div>
     <Grid align="right">
-      <Button variant="outlined" color="primary" onClick={handleOpenS}>
+      <ButtonS variant="outlined" color="primary" onClick={handleOpenS}>
         Add todo Styled
-      </Button>
-      <Button variant="outlined" color="primary" onClick={handleOpenR}>
+      </ButtonS>
+      <ButtonR variant="outlined" color="primary" onClick={handleOpenR}>
         Add todo Reactstrap
-      </Button>
+      </ButtonR>
       <Button variant="outlined" color="primary" onClick={handleOpen}>
         Add todo Material-UI
       </Button>

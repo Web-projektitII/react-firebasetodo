@@ -28,12 +28,12 @@ const Button = styled.button`
   background: linear-gradient(to bottom, #6371c7, #5563c1);
   border-color: #3f4eae;
   border-radius: 3px;
-  padding: 1rem;
+  padding: 0.3rem 0.5rem;
   color: white;
-  font-weight: 700;
-  width: 100%;
-  margin-bottom: 1rem;
-  font-size: 0.8rem;
+  width: 150px;
+  white-space: nowrap;
+  margin-right: 0.1rem;
+  vertical-align:middle
 `;
 
 const Logo = styled.img`
