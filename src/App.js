@@ -13,9 +13,13 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
+const url = 'https://react-bookstore-omnia-default-rtdb.europe-west1.firebasedatabase.app/items/';
+const initialValue = { description: '', date: '', priority: '' }
 function App() {
   const [todos, setTodos] = useState([]);
-  const [id, setId] = useState();
+  /* Muutoslomakkeet tilamuuttujat */
+  const [open, setOpen] = useState();
+  const [todo, setTodo] = useState(initialValue);
 
   useEffect(() => {
     fetchItems();
@@ -23,40 +27,63 @@ function App() {
 
   const addKeys = (data) => {
     const keys = Object.keys(data);
-    const valueKeys = Object.values(data).map((item, index) => 
-    Object.defineProperty(item, 'id', {value: keys[index]}));
+    const valueKeys = Object.values(data).map(
+      (item, index) => Object.defineProperty(item, 'id', {value: keys[index]})
+      );
     setTodos(valueKeys);
   }
 
+  const handleUpdate = (oldTodo,id) => {
+    /* Listan muutospainikkeet: listarivin arvot todo-lomaketilamuuttujaan.
+       Lomakkeen avaaminen esitäytettynä. */
+    oldTodo = { ...oldTodo,['id']:id}
+    console.log('oldTodo:',oldTodo);   
+    setTodo(oldTodo);
+    setOpen(true);
+    }  
+
+  const handleClose = () => {
+    setOpen(false);
+    }
+
+  const onChange = (e) => {
+    /* Todo-tilamuuttujaan lisätään id-kenttä */
+    const { value,name } = e.target
+    setTodo({...todo, [name]:value});
+    }
+
   const fetchItems = () => {
-    fetch('https://react-bookstore-omnia-default-rtdb.europe-west1.firebasedatabase.app/items/.json')
+    fetch(url + '.json')
     .then(response => response.json())
     .then(data => addKeys(data))
     .catch(err => console.error(err))
   }
 
   const deleteTodo = (id) => {
-    fetch(`https://react-bookstore-omnia-default-rtdb.europe-west1.firebasedatabase.app/items/${id}.json`,
-   {
+    const confirm = window.confirm("Are you sure, you want to delete this row?");
+    confirm && fetch(url + `${id}.json`,{
       method: 'DELETE',
-    })
+      })
     .then(response => fetchItems())
     .catch(err => console.error(err))
   }
 
-  const changeTodo = (id,todo) => {
-    fetch(`https://react-bookstore-omnia-default-rtdb.europe-west1.firebasedatabase.app/items/${id}.json`,
-   {
+  const changeTodo = () => {
+    console.log('todo:',todo)
+    const confirm = window.confirm("Are you sure, you want to update this row?");
+    confirm && fetch(url + `${todo.id}.json`,{
       method: 'PUT',
       body: JSON.stringify(todo)
-    })
-    .then(response => fetchItems())
+      })
+    .then(
+      response => { fetchItems();
+      handleClose();
+      })
     .catch(err => console.error(err))
   }
 
   const addTodo = (newTodo) => {
-    fetch('https://react-bookstore-omnia-default-rtdb.europe-west1.firebasedatabase.app/items/.json',
-    {
+    fetch(url + '.json',{
       method: 'POST',
       body: JSON.stringify(newTodo)
     })
@@ -74,7 +101,8 @@ function App() {
         </Toolbar>
       </AppBar> 
       <AddTodo addTodo={addTodo}/>
-      <ChangeTodo id={id} changeTodo={changeTodo}/> 
+      <ChangeTodo open={open} handleClose={handleClose}
+        todo={todo} onChange={onChange} changeTodo={changeTodo}/> 
       <div className="ag-theme-material" style={ { height: 400, width: 800, margin: 'auto' } }>
         <AgGridReact rowData={todos}>
           <AgGridColumn sortable={true} filter={true} field='description' />
@@ -85,21 +113,17 @@ function App() {
             field='id' 
             width={90}
             cellRendererFramework={ params => 
-              <IconButton onClick={() => setId(params.value)} size="small" color="secondary">
+            <>
+              <IconButton onClick={() => handleUpdate(params.data,params.value)} size="small" color="secondary">
                 <EditIcon />
               </IconButton>
-            }
-          />      
-          <AgGridColumn 
-            headerName=''
-            field='id' 
-            width={90}
-            cellRendererFramework={ params => 
               <IconButton onClick={() => deleteTodo(params.value)} size="small" color="secondary">
                 <DeleteIcon />
               </IconButton>
+            </>
             }
-          /> 
+          />      
+          
         </AgGridReact>
       </div>
     </div>
