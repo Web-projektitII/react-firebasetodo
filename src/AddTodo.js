@@ -39,7 +39,7 @@ function AddTodo(props) {
     setOpen(false);
     setOpenS(false);
     setOpenR(false);
-  }
+    }
 
   const handleEmpty = () => {
     reset();
@@ -48,15 +48,9 @@ function AddTodo(props) {
   const handleSave = (data) => {
     props.addTodo(data);
     handleClose();
-  }
+    }
 
-  const handleSaveReactstrap = (data) => {
-    console.log("data:",data)
-    props.addTodo(data);
-    handleClose();
-  }
-
- /*const inputChanged = (event) => {
+  /*const inputChanged = (event) => {
     setTodo({...todo, [event.target.name]: event.target.value});
   }*/
 
@@ -180,7 +174,7 @@ function AddTodo(props) {
       <ModalFooter>
         <ButtonR color="secondary" variant="outlined" onClick={handleEmpty}>Tyhjennä</ButtonR>
         <ButtonR color="secondary" variant="outlined" onClick={handleClose}>Cancel</ButtonR>
-        <ButtonR color="primary" variant="outlined" onClick={handleSubmit(handleSaveReactstrap)}>Save</ButtonR>
+        <ButtonR color="primary" variant="outlined" onClick={handleSubmit(handleSave)}>Save</ButtonR>
       </ModalFooter>
      </Modal> 
 
