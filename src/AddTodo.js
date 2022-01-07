@@ -19,7 +19,7 @@ function AddTodo(props) {
   const [open, setOpen] = useState(false);
   const [openS, setOpenS] = useState(false);
   const [openR, setOpenR] = useState(false);
-  const [todo, setTodo] = useState(initialValue);
+  //const [todo, setTodo] = useState(initialValue);
 
   const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
     console.log(watch("description"));
@@ -45,8 +45,8 @@ function AddTodo(props) {
     reset();
     }
   
-  const handleSave = () => {
-    props.addTodo(todo);
+  const handleSave = (data) => {
+    props.addTodo(data);
     handleClose();
   }
 
@@ -56,18 +56,17 @@ function AddTodo(props) {
     handleClose();
   }
 
-
-  const inputChanged = (event) => {
+ /*const inputChanged = (event) => {
     setTodo({...todo, [event.target.name]: event.target.value});
-  }
+  }*/
 
   const inputChangedReactstrap = (event) => {
     /* Toimii: Lomakkeen tallennukseen tarvitaan todo,
        lomakkeen tarkistuksiin tarvitaan kentän reset,
        mutta korvaamalla lähetyksessä todo lomakkeen datalla,
        tämä käy tarpeettomaksi. */
-    setTodo({...todo, [event.target.name]: event.target.value});
-    reset({[event.target.name]:event.target.value})
+    /* setTodo({...todo, [event.target.name]: event.target.value});
+    reset({[event.target.name]:event.target.value})*/
   }
 
   var {ref, ...description} = register('description', { required: true });
@@ -98,7 +97,6 @@ function AddTodo(props) {
          <TextField
             {...register("description", { required: true })}
             placeholder="Description"
-            onChange={inputChanged}
             variant="outlined"
             margin="dense"
             fullWidth
@@ -106,8 +104,6 @@ function AddTodo(props) {
           {errors.description && <Error>This field is required</Error>} 
          <TextField
             {...register("date", { required: true })}
-            placeholder='Date'
-            onChange={inputChanged}
             variant="outlined"
             margin="dense"
             fullWidth
@@ -116,7 +112,6 @@ function AddTodo(props) {
         <TextField
            {...register("priority", { required: true })}
            placeholder="Priority"
-           onChange={inputChanged}
            variant="outlined"
            margin="dense"
            fullWidth
@@ -136,51 +131,45 @@ function AddTodo(props) {
        <form onSubmit={handleSubmit(handleSave)}>
          <InputS
             {...register("description", { required: true })}
-            onChange={inputChanged}
             placeholder="Description"
           /> 
           {errors.description && <Error>Description field is required</Error>} 
          <InputS
             {...register("date", { required: true })}
-            onChange={inputChanged}
             placeholder='Date'
          />
         {errors.date && <Error>Date field is required</Error>} 
         <InputS
           {...register("priority", { required: true })}
-           onChange={inputChanged}
            placeholder="Priority"
         /> 
         {errors.priority && <Error>Priority field is required</Error>}     
       </form>
       </DialogContent>
       <DialogActions>
-        <Button color="secondary" variant="outlined" onClick={handleEmpty}>Tyhjennä</Button>
-        <Button color="secondary" variant="outlined" onClick={handleClose}>Cancel</Button>
-        <Button color="primary" variant="outlined" onClick={handleSubmit(handleSave)}>Save</Button>
+        <ButtonS color="secondary" variant="outlined" onClick={handleEmpty}>Tyhjennä</ButtonS>
+        <ButtonS color="secondary" variant="outlined" onClick={handleClose}>Cancel</ButtonS>
+        <ButtonS color="primary" variant="outlined" onClick={handleSubmit(handleSave)}>Save</ButtonS>
       </DialogActions>
      </Dialog> 
 
      <Modal isOpen={openR}>
        <ModalHeader>New todo Reactstrap</ModalHeader>
        <ModalBody>
-       <form onSubmit={handleSubmit(handleSave)}>
+       <form>
          <Input
-            name="description"
             innerRef={refDescription}
             {...description}    
             placeholder="Description"
           /> 
           {errors.description && <Error>Description field is required</Error>} 
          <Input
-           name="date"
            innerRef={refDate}
            {...date}
            placeholder='Date'
          />
         {errors.date && <Error>Date field is required</Error>} 
         <Input
-           name="priority"
            innerRef={refPriority}
            {...priority}
            placeholder="Priority"
@@ -191,7 +180,7 @@ function AddTodo(props) {
       <ModalFooter>
         <ButtonR color="secondary" variant="outlined" onClick={handleEmpty}>Tyhjennä</ButtonR>
         <ButtonR color="secondary" variant="outlined" onClick={handleClose}>Cancel</ButtonR>
-        <ButtonR color="primary" variant="outlined" onClick={handleSubmit((data) => handleSaveReactstrap(data))}>Save</ButtonR>
+        <ButtonR color="primary" variant="outlined" onClick={handleSubmit(handleSaveReactstrap)}>Save</ButtonR>
       </ModalFooter>
      </Modal> 
 

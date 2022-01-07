@@ -25,7 +25,8 @@ const InputS = styled.input`
 `;
 
 const Button = styled.button`
-  background: linear-gradient(to bottom, #6371c7, #5563c1);
+  background: ${props => props.color == "primary" ? "linear-gradient(to bottom, #6371c7, #5563c1)" : "grey"};
+  color: ${props => props.color == "primary" ? "white" : "palevioletred"};
   border-color: #3f4eae;
   border-radius: 3px;
   padding: 0.3rem 0.5rem;
