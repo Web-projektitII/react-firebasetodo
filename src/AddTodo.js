@@ -98,6 +98,7 @@ function AddTodo(props) {
           {errors.description && <Error>This field is required</Error>} 
          <TextField
             {...register("date", { required: true })}
+            placeholder="Date"
             variant="outlined"
             margin="dense"
             fullWidth

@@ -15,6 +15,7 @@ import EditIcon from '@material-ui/icons/Edit';
 
 const url = 'https://react-bookstore-omnia-default-rtdb.europe-west1.firebasedatabase.app/items/';
 const initialValue = { description: '', date: '', priority: '' }
+
 function App() {
   const [todos, setTodos] = useState([]);
   /* Muutoslomakkeet tilamuuttujat */
@@ -22,7 +23,7 @@ function App() {
   const [todo, setTodo] = useState(initialValue);
 
   useEffect(() => {
-    fetchItems();
+    fetchItems()
   }, [])
 
   const addKeys = (data) => {
