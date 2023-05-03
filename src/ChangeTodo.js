@@ -1,5 +1,5 @@
 // ChangeTodo.js
-
+import { useEffect } from 'react';
 import { 
   Button, 
   TextField,
@@ -12,18 +12,34 @@ import { Error } from './Styled';
 import { useForm } from "react-hook-form";
 
 
-function ChangeTodo({open,handleClose,todo,onChange,changeTodo}) {
-  const {description,date,priority} = todo;
+function ChangeTodo({open,handleClose,todo,changeTodo}) {
+  const {description,date,priority,id} = todo;
   
   const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
+  let initialValue = {description,date,priority,id}
   console.log(watch("description"));
+
+  useEffect(() => {
+    console.log('useEffect,todo:',todo)
+    reset(initialValue) 
+    }, [todo]);
+
+  const handleReset = () => {
+    console.log("handleReset")
+    reset({description:'',date:'',priority:'',id})
+    }
+
+  const handleRecover = () => {
+    console.log("handleRecover")
+    reset(initialValue)
+    }  
 
   return(
     <div>
      <Dialog open={open}>
        <DialogTitle>Change todo</DialogTitle>
        <DialogContent> 
-         <form onSubmit={handleSubmit(changeTodo)} >
+         <form onSubmit={handleSubmit(data => changeTodo(data))} >
          <TextField
             {...register("description", { required: true })}
             variant="outlined"
@@ -49,8 +65,10 @@ function ChangeTodo({open,handleClose,todo,onChange,changeTodo}) {
          /> 
          {errors.priority && <Error>Lisää kiireellisyys</Error>} 
          <DialogActions>
+         <Button color="secondary" variant="outlined" onClick={handleReset}>Tyhjennä</Button>
          <Button color="secondary" variant="outlined" onClick={handleClose}>Peruuta</Button>
-         <Button type="submit" value="Tallenna" color="primary" variant="outlined">Tallenna</Button>
+         <Button color="secondary" variant="outlined" onClick={handleRecover}>Palauta</Button>
+          <Button type="submit" value="Tallenna" color="primary" variant="outlined">Tallenna</Button>
          </DialogActions>     
       </form>   
       </DialogContent>

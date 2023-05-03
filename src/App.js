@@ -80,12 +80,12 @@ function App() {
     .catch(err => console.error(err))
   }
 
-  const changeTodo = () => {
-    console.log('todo:',todo)
+  const changeTodo = data => {
+    console.log('todo:',todo,'data:',data)
     const confirm = window.confirm("Are you sure, you want to update this row?");
     confirm && fetch(url + `${todo.id}.json`,{
       method: 'PUT',
-      body: JSON.stringify(todo)
+      body: JSON.stringify(data)
       })
     .then(
       response => { fetchItems();
@@ -114,7 +114,7 @@ function App() {
       </AppBar> 
       <AddTodo addTodo={addTodo}/>
       <ChangeTodo open={open} handleClose={handleClose}
-        todo={todo} onChange={onChange} changeTodo={changeTodo}/> 
+        todo={todo} changeTodo={changeTodo}/> 
       <div className="ag-theme-material" style={ { height: 400, width: 800, margin: 'auto' } }>
         <AgGridReact rowData={todos}>
           <AgGridColumn sortable={true} filter={true} field='description' />
@@ -124,7 +124,7 @@ function App() {
             headerName=''
             field='id' 
             width={120}
-            cellRendererFramework={ params => 
+            cellRenderer={ params => 
             <>
               <IconButton onClick={() => handleUpdate(params.data)} size="small" color="secondary">
                 <EditIcon />
