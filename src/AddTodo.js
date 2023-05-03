@@ -1,7 +1,7 @@
 // AddTodo.js
 import React, { useState } from 'react';
 import { 
-  Grid, 
+  Box, 
   Button, 
   TextField, 
   Dialog,
@@ -70,7 +70,7 @@ function AddTodo(props) {
 
   return(
     <div>
-    <Grid align="right">
+    <Box sx={{ display:'grid',gap:1,gridTemplateColumns: 'repeat(3,1fr)',width:700 }}>
       <ButtonS variant="outlined" color="primary" onClick={handleOpenS}>
         Add todo Styled
       </ButtonS>
@@ -80,7 +80,7 @@ function AddTodo(props) {
       <Button variant="outlined" color="primary" onClick={handleOpenM}>
         Add todo Material-UI
       </Button>
-    </Grid>
+    </Box>
 
     <Dialog open={openM}>
        <DialogTitle>New todo Material-UI</DialogTitle>

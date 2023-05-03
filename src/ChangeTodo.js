@@ -1,21 +1,16 @@
 // ChangeTodo.js
 import { useEffect } from 'react';
 import { 
-  Button, 
-  TextField,
-  Input, 
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle } from '@mui/material';
+  Button,TextField,Dialog,
+  DialogActions,DialogContent, DialogTitle } from '@mui/material';
 import { Error } from './Styled';
 import { useForm } from "react-hook-form";
 
 
-function ChangeTodo({open,handleClose,todo,changeTodo}) {
-  const {description,date,priority,id} = todo;
-  
+function ChangeTodo({open,close,todo,changeTodo}) {
+   
   const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
+  const {description,date,priority,id} = todo;
   let initialValue = {description,date,priority,id}
   console.log(watch("description"));
 
@@ -66,9 +61,9 @@ function ChangeTodo({open,handleClose,todo,changeTodo}) {
          {errors.priority && <Error>Lisää kiireellisyys</Error>} 
          <DialogActions>
          <Button color="secondary" variant="outlined" onClick={handleReset}>Tyhjennä</Button>
-         <Button color="secondary" variant="outlined" onClick={handleClose}>Peruuta</Button>
+         <Button color="secondary" variant="outlined" onClick={close}>Peruuta</Button>
          <Button color="secondary" variant="outlined" onClick={handleRecover}>Palauta</Button>
-          <Button type="submit" value="Tallenna" color="primary" variant="outlined">Tallenna</Button>
+         <Button type="submit" value="Tallenna" color="primary" variant="outlined">Tallenna</Button>
          </DialogActions>     
       </form>   
       </DialogContent>

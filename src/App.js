@@ -47,22 +47,17 @@ function App() {
   const handleUpdate = oldTodo => {
     /* Listan muutospainikkeet: listarivin arvot todo-lomaketilamuuttujaan.
        Lomakkeen avaaminen esitäytettynä. */
-    //console.log('handleUpdate,oldTodo:',oldTodo);   
-    //oldTodo = { ...oldTodo,['id']:id }
     console.log('handleUpdate, oldTodo:',oldTodo);   
     setTodo(oldTodo);
     setOpen(true);
     }  
 
-  const handleClose = () => {
-    setOpen(false);
-    }
-
-  const onChange = (e) => {
-    /* Todo-tilamuuttujaan lisätään id-kenttä */
+  const close = () => setOpen(false);
+    
+  /*const onChange = (e) => {
     const { value,name } = e.target
     setTodo({...todo, [name]:value});
-    }
+    }*/
 
   const fetchItems = () => {
     fetch(url + '.json')
@@ -87,10 +82,10 @@ function App() {
       method: 'PUT',
       body: JSON.stringify(data)
       })
-    .then(
-      response => { fetchItems();
-      handleClose();
-      })
+    .then( response => { 
+        fetchItems();
+        close();
+        })
     .catch(err => console.error(err))
   }
 
@@ -113,8 +108,7 @@ function App() {
         </Toolbar>
       </AppBar> 
       <AddTodo addTodo={addTodo}/>
-      <ChangeTodo open={open} handleClose={handleClose}
-        todo={todo} changeTodo={changeTodo}/> 
+      <ChangeTodo open={open} close={close} todo={todo} changeTodo={changeTodo}/> 
       <div className="ag-theme-material" style={ { height: 400, width: 800, margin: 'auto' } }>
         <AgGridReact rowData={todos}>
           <AgGridColumn sortable={true} filter={true} field='description' />
