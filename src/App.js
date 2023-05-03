@@ -22,9 +22,10 @@ function App() {
   const [open, setOpen] = useState(false);
   const [todo, setTodo] = useState(initialValue);
 
-  useEffect(() => {
-    fetchItems()
-  }, [])
+  useEffect( () => { 
+    fetchItems() 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [] )
 
   const addKeys = data => {
     console.log('data I:',data)
@@ -36,7 +37,7 @@ function App() {
       (item, index) => Object.defineProperty(item, 'id', {value: keys[index]})
       ); */
     const valueKeys = Object.values(data).map(
-        (item, index) => ({ ...item,['id']:keys[index] })
+        (item, index) => ({ ...item,id:keys[index] })
         );  
     console.log('data II:',valueKeys)
     //const valueKeys = Object.values(data)

@@ -64,12 +64,9 @@ function AddTodo(props) {
     reset({[event.target.name]:event.target.value})*/
   }
 
-  var {ref, ...description} = register('description', { required: true });
-  const refDescription = ref;
-  var {ref, ...date} = register('date', { required: true })
-  const refDate = ref;
-  var {ref, ...priority} = register('priority', { required: true })
-  const refPriority = ref;
+  const {ref:refDescription, ...description} = register('description', { required: true });
+  const {ref:refDate, ...date} = register('date', { required: true })
+  const {ref:refPriority, ...priority} = register('priority', { required: true })
 
   return(
     <div>
