@@ -1,12 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import App from './App';
+import { BrowserRouter as Router } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
-
+/* Huom. React.StrictMode => useEffect suoritetaan kahteen kertaan,
+   vaikka sen parametrina on []! */
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App/>);
+root.render(
+    <Router>
+      <App />
+    </Router>  
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
