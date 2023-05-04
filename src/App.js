@@ -76,9 +76,10 @@ function App() {
   }
 
   const changeTodo = data => {
-    console.log('todo:',todo,'data:',data)
+    console.log('changeTodo,todo:',todo,'data:',data)
+    data.date = data.date.replace('T',' ')
     const confirm = window.confirm("Are you sure, you want to update this row?");
-    confirm && fetch(url + `${todo.id}.json`,{
+    confirm && fetch(url + `${data.id}.json`,{
       method: 'PUT',
       body: JSON.stringify(data)
       })
@@ -98,6 +99,32 @@ function App() {
     .catch(err => console.error(err))
   }
 
+  const localDateTime = dt => {
+    dt = dt.replace(' 00:00','')
+    // dt.padEnd(15, ' 00:00');
+    // console.log('dt:',dt)
+    if (dt.length > 10)
+    return new Date(dt).toLocaleString(undefined, {
+        day:    'numeric',
+        month:  'numeric',
+        year:   'numeric',
+        hour:   '2-digit',
+        minute: '2-digit'
+    })
+    else 
+    return new Date(dt).toLocaleString(undefined, {
+        day:    'numeric',
+        month:  'numeric',
+        year:   'numeric'
+    })}
+
+  const dateComparator = (date1,date2,dateA,dateB,isInverted) => {
+      /* Huom. nousevan ja laskevan välissä ei valintaa */
+      // console.log(`${dateB.data.date} > ${dateA.data.date}?`)
+      return dateA.data.date > dateB.data.date ? 1 : -1
+      }   
+
+
   return (
     <div className="App">
       <AppBar position="static">
@@ -112,7 +139,13 @@ function App() {
       <div className="ag-theme-material" style={ { height: 400, width: 800, margin: 'auto' } }>
         <AgGridReact rowData={todos}>
           <AgGridColumn sortable={true} filter={true} field='description' />
-          <AgGridColumn sortable={true} filter={true} field='date' />
+          <AgGridColumn 
+            sortable={true} 
+            filter={true} 
+            field='date' 
+            valueGetter={p => localDateTime(p.data.date)}
+            comparator={dateComparator}
+            />
           <AgGridColumn sortable={true} filter={true} field='priority' />     
           <AgGridColumn 
             headerName=''
